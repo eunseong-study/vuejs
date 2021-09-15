@@ -4,6 +4,9 @@
             <li v-for="(todoItem, index) in todoItems" v-bind:key="index" class="shadow">
                 <i class="fas fa-check checkBtn" v-bind:class="{checkBtnCompleted: todoItem.completed}" v-on:click="toggleComplete(todoItem,index)"></i>
                 <span v-bind:class="{textCompleted: todoItem.completed }">{{todoItem.item}}</span>
+                <span class="removeBtn" v-on:click="removeTodo(todoItem, index)">
+                <i class="fas fa-trash-alt"></i>
+                </span>                
             </li>
         </ul>
     </div>
@@ -58,7 +61,7 @@ padding: 0 0.9rem;
 background: white;
 border-radius: 5px;
 }
-removeBtn {
+.removeBtn {
 margin-left: auto;
 color: #de4343;
 }
