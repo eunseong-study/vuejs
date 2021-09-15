@@ -1,9 +1,10 @@
 <template>
   <div id="app">
     <TodoHeader></TodoHeader>
-    <TodoInput></TodoInput>
-    <TodoList></TodoList>
-    <TodoFooter></TodoFooter>
+    <TodoInput v-on:addItemEvent="addOneItem"></TodoInput>
+    <TodoList v-bind:propsdata="todoItems" v-on:removeItemEvent="removeOneItem"
+    v-on:toggleItemEvent="toggleOneItem"></TodoList>
+    <TodoFooter v-on:removeAllItemEvent="removeAllItems"></TodoFooter>
   </div>
 </template>
 
@@ -19,6 +20,41 @@ export default {
     'TodoInput': TodoInput,
     'TodoList': TodoList,
     'TodoFooter': TodoFooter
+  },
+  data: function(){
+    return{ todoItems:[]}
+  },
+/* life cycle method */
+  created: function() {
+      if(localStorage.length > 0){
+          for(var i=0; i < localStorage.length; i++) {
+              if(localStorage.key(i) !== 'loglevel:webpack-dev-server'){
+                  var itemJson = localStorage.getItem(localStorage.key(i));
+                  this.todoItems.push(JSON.parse(itemJson));
+              }
+          }
+      }
+  },
+  methods: {
+    addOneItem: function(todoItem){
+      var obj = {completed: false, item: todoItem};
+      localStorage.setItem(todoItem, JSON.stringify(obj));
+      //localStorage와 화면을 동기화 시키기 위해서
+      this.todoItems.push(obj);
+    },
+    removeOneItem: function(todoItem, index){
+      localStorage.removeItem(todoItem.item);
+      this.todoItems.splice(index, 1);
+    },
+    toggleOneItem: function(todoItem, index){
+          this.todoItems[index].completed = !this.todoItems[index].completed;
+          localStorage.removeItem(todoItem.item);
+          localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
+    },
+    removeAllItems: function(){
+      localStorage.clear();
+      this.todoItems = [];
+    }
   }
 }
 </script>
