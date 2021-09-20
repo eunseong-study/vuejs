@@ -9,10 +9,15 @@
 
 <script>
 export default {
+    data: function(){
+        return {
+            newTodoItem:""
+        }
+    },
     methods:{
         addTodo() {
             if (this.newTodoItem !== '') {
-                this.$emit('addItemEvent', this.newTodoItem);
+               this.$store.commit('addOneItem', this.newTodoItem);
                 this.clearInput();
             }
         },
