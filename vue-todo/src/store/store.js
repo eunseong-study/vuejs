@@ -40,7 +40,10 @@ export const store = new Vuex.Store({
             localStorage.clear();
             state.todoItems = [];
         },
-
-
+    },
+    getters: {
+        getTodoItems(state) {
+            return state.todoItems;
+        }
     }
 });
