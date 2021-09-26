@@ -1,8 +1,19 @@
 <template>
     <header>
-        <h1>{{ this.$store.state.headerText }}</h1>
+        <h1>{{ getHeaderText }}</h1>
     </header>
 </template>
+
+<script>
+import { mapGetters } from 'vuex'
+
+export default{
+    computed: {
+       ...mapGetters(['getHeaderText'])
+    }
+}
+</script>
+
 <style scoped>
 h1 {
 color:#2F3852;
